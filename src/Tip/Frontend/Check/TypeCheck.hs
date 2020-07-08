@@ -6,23 +6,29 @@ import Tip.Frontend.AST.Subst
 import Tip.Frontend.AST.Type
 import Tip.Frontend.AST.Unify
 
--- The type check monad holding a counter for fresh type variables.
-type TM a = State Int a
+-- The type check monad holding an (infinite) list of fresh type variables.
+type TM a = State [String] a
 
 -- Type-checks the given AST and returns the typed AST
 typeCheck :: Show a => Expr a -> Expr Type
 typeCheck = snd . runTM . infer emptyContext
 
+-- An infinite list of fresh type variables.
+freshTypeVars :: [String]
+freshTypeVars = alphabet ++ zipWith (++) alphabet freshTypeVars
+    where alphabet = map pure "abcdefghijklmnopqrstuvwxyz"
+
 -- Runs the type check monad.
 runTM :: TM a -> a
-runTM s = fst $ runState s 0
+runTM s = fst $ runState s freshTypeVars
 
 -- Produces a new type variable
 freshTypeVar :: TM Type
 freshTypeVar = do
-    n <- get
-    put (n + 1)
-    return $ TypeVar $ "_" <> show n
+    vs <- get
+    let (v:vs') = vs
+    put vs'
+    return $ TypeVar $ '_' : v
 
 -- Instantiates a type scheme using fresh variables.
 instantiate :: Scheme -> TM Type
