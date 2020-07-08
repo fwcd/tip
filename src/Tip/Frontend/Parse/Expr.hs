@@ -69,4 +69,4 @@ letExpr = do
 
 -- Parses an expression
 expr :: Parser Expr
-expr = litStrExpr <|> litIntExpr <|> applyExpr <|> varExpr <|> lambdaExpr <|> letExpr
+expr = litStrExpr <|> litIntExpr <|> applyExpr <|> lambdaExpr <|> letExpr <|> varExpr
