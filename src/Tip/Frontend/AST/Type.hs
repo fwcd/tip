@@ -4,6 +4,8 @@ module Tip.Frontend.AST.Type
     , free
     ) where
 
+import Data.List (intercalate)
+import Tip.Frontend.AST.Pretty
 import Tip.Frontend.AST.VarName
 
 -- A type that possibly contains free variables.
@@ -22,3 +24,13 @@ free :: Type -> [VarName]
 free (TypeVar v) = [v]
 free (TypeFun x y) = free x ++ free y
 free _ = []
+
+instance Pretty Type where
+    pretty t = case t of
+        TypeStr -> "String"
+        TypeInt -> "Int"
+        TypeVar v -> v
+        TypeFun x y -> "(" <> pretty x <> " -> " <> pretty y <> ")"
+
+instance Pretty Scheme where
+    pretty (Scheme vs t) = "forall " <> intercalate " " vs <> ". " <> pretty t

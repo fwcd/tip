@@ -42,7 +42,8 @@ varBindWithCheck v t            | elem v $ free t = error $ "Occurs check: " <> 
 varBindCtx :: VarName -> Scheme -> Context -> Context
 varBindCtx v s (Context m) = Context $ M.insert v s m
 
--- Applies the substitution to a type. applySubst :: Subst -> Type -> Type
+-- Applies the substitution to a type.
+applySubst :: Subst -> Type -> Type
 applySubst s@(Subst m) t = case t of
     TypeVar   v   -> fromMaybe t $ M.lookup v m
     TypeFun   x y -> TypeFun   (applySubst s x) (applySubst s y)
@@ -61,7 +62,7 @@ applySubstCtx s (Context m) = Context $ M.map (applySubstScheme s) m
 -- Yields a subtitution that has the same effect as
 -- first applying the right and then the left one
 composeSubst :: Subst -> Subst -> Subst
-composeSubst s1@(Subst m1) s2@(Subst m2) = Subst $ M.union (M.map (applySubst s1) m2) m1
+composeSubst s1@(Subst m1) (Subst m2) = Subst $ M.union (M.map (applySubst s1) m2) m1
 
 -- Looks up a type in a context.
 contextLookup :: VarName -> Context -> Maybe Scheme
