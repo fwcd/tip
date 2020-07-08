@@ -24,13 +24,13 @@ applyExpr :: Parser (Expr ())
 applyExpr = do
     -- TODO: Handle precedence and left-recursion so that
     --       not every application has to be parenthesized
-    char '('
+    _ <- char '('
     spaces
     f <- expr
     spaces
     x <- expr
     spaces
-    char ')'
+    _ <- char ')'
     pure $ Apply () f x
 
 -- Parses an identifier
@@ -44,10 +44,10 @@ varExpr = Var <$> pure () <*> ident
 -- Parses a lambda
 lambdaExpr :: Parser (Expr ())
 lambdaExpr = do
-    char '\\'
+    _ <- char '\\'
     x <- varExpr
     spaces
-    string "->"
+    _ <- string "->"
     spaces
     e <- expr
     pure $ Lambda () x e
@@ -55,15 +55,15 @@ lambdaExpr = do
 -- Parses a let expression
 letExpr :: Parser (Expr ())
 letExpr = do
-    string "let"
+    _ <- string "let"
     spaces
     x <- ident
     spaces
-    char '='
+    _ <- char '='
     spaces
     e <- expr
     spaces
-    string "in"
+    _ <- string "in"
     spaces
     b <- expr
     pure $ Let () x e b
