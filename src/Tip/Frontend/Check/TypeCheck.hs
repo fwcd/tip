@@ -4,6 +4,7 @@ import Control.Monad.State (State (..), runState, put, get)
 import Tip.Frontend.AST.Expr
 import Tip.Frontend.AST.Subst
 import Tip.Frontend.AST.Type
+import Tip.Frontend.AST.Unify
 import Tip.Frontend.AST.VarName
 
 -- The type check monad holding a counter for fresh type variables.
@@ -38,7 +39,9 @@ infer ctx (Apply _ f x) = do
     (s2, x') <- infer (applySubstCtx s1 ctx) x
     let tyF = value f'
         tyX = value x'
-    return (composeSubst s2 s1, Apply tyRes f' x')
+        s3 = unify tyF $ TypeFun tyX tyRes
+    return (foldr1 composeSubst [s3, s2, s1], Apply (applySubst s3 tyRes) f' x')
+-- TODO: Lambda
 infer ctx (Let _ x e b) = do
     (s1, e') <- infer ctx e
     (s2, b') <- infer (applySubstCtx s1 ctx) b
