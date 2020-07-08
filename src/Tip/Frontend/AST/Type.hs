@@ -8,6 +8,7 @@ import Tip.Frontend.AST.VarName
 data Type = TypeStr
           | TypeInt
           | TypeVar VarName
+          | TypeFun Type Type
           | TypeApply Type Type
     deriving (Show, Eq)
 
