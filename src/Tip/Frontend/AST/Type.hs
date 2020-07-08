@@ -1,6 +1,7 @@
 module Tip.Frontend.AST.Type 
     ( Type (..)
     , Scheme (..)
+    , generalize
     , free
     ) where
 
@@ -24,6 +25,10 @@ free :: Type -> [VarName]
 free (TypeVar v) = [v]
 free (TypeFun x y) = free x ++ free y
 free _ = []
+
+-- Binds all variables of a type with a universal quantifier.
+generalize :: Type -> Scheme
+generalize t = Scheme (free t) t
 
 instance Pretty Type where
     pretty t = case t of

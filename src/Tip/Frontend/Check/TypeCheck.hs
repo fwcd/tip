@@ -59,9 +59,11 @@ infer ctx (Lambda _ x e) = do
     return (s, Lambda (TypeFun (applySubst s tyX) tyRes) x e')
 
 infer ctx (Let _ x e b) = do
+    -- First infer the type of the expression,
+    -- then infer the body using the generalized/universally quantified type (with 'forall')
     (s1, e') <- infer ctx e
     let tyE = value e'
-        innerCtx = varBindCtx x (Scheme [] tyE) ctx
+        innerCtx = varBindCtx x (generalize tyE) ctx
     (s2, b') <- infer (applySubstCtx s1 innerCtx) b
     let tyB = value b'
     return (composeSubst s2 s1, Let tyB x e' b')
