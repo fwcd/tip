@@ -1,15 +1,14 @@
 module Tip.Frontend.AST.Expr
     ( Expr (..)
-    , VarName
     ) where
 
-type VarName = String
+import Tip.Frontend.AST.VarName
 
 -- An expression AST node.
-data Expr = LitStr String         -- "abc"
-          | LitInt Int            -- 123
-          | Var String            -- abc
-          | Apply Expr Expr       -- x y
-          | Lambda Expr Expr      -- \x -> y
-          | Let VarName Expr Expr -- let v = x in y
+data Expr a = LitStr a String                 -- "abc"
+            | LitInt a Int                    -- 123
+            | Var a String                    -- abc
+            | Apply a (Expr a) (Expr a)       -- x y
+            | Lambda a (Expr a) (Expr a)      -- \x -> y
+            | Let a VarName (Expr a) (Expr a) -- let v = x in y
     deriving (Show, Eq)

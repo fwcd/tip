@@ -3,6 +3,7 @@ module Tip.Frontend.Parse.Expr (parseExpr) where
 import Data.Either.Combinators (mapLeft)
 import Text.Parsec
 import Tip.Frontend.AST.Expr
+import Tip.Frontend.AST.VarName
 
 type Parser a = Parsec String () a
 
