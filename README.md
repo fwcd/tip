@@ -1,5 +1,5 @@
 # Tip
-A small, Haskell-like purely functional programming language.
+A small, Haskell-like, purely functional programming language.
 
 This repo contains the compiler frontend that parses a source file and emits a (typed) AST in Haskell's show notation.
 
