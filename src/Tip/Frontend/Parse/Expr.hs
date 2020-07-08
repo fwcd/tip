@@ -27,7 +27,7 @@ applyExpr = do
     _ <- char '('
     spaces
     f <- expr
-    spaces
+    skipMany1 space
     x <- expr
     spaces
     _ <- char ')'
@@ -35,7 +35,7 @@ applyExpr = do
 
 -- Parses an identifier
 ident :: Parser VarName
-ident = many1 (noneOf [' '])
+ident = many1 alphaNum
 
 -- Parses a variable identifier
 varExpr :: Parser (Expr ())
