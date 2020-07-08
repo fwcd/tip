@@ -1,7 +1,7 @@
 module Main where
 
 import System.Environment
-import Tip.Frontend.Parse.Expr
+import Tip.Frontend.Parse.Expr (parseExpr)
 
 main :: IO ()
 main = do
@@ -9,6 +9,7 @@ main = do
     case args of
         (inFile:outFile:_) -> do
             source <- readFile inFile
-            let expr = parseExpr source
-            writeFile outFile $ show expr
+            case parseExpr inFile source of
+                Left e -> error e
+                Right expr -> writeFile outFile $ show expr
         _ -> error "Syntax: [input file] [output file]"
