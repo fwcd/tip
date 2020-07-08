@@ -3,6 +3,7 @@ module Tip.Frontend.AST.Expr
     , value
     ) where
 
+import Tip.Frontend.AST.Pretty
 import Tip.Frontend.AST.VarName
 
 -- An expression AST node.
@@ -23,3 +24,12 @@ value e = case e of
     Apply x _ _  -> x
     Lambda x _ _ -> x
     Let x _ _ _  -> x
+
+instance (Pretty a, Show a) => Pretty (Expr a) where
+    pretty e = case e of
+        LitStr t s -> "\"" <> s <> "\" :: " <> pretty t
+        LitInt t i -> show i <> " :: " <> pretty t
+        Var t v -> v <> " :: " <> pretty t
+        Apply t f x -> "(" <> pretty f <> " " <> pretty x <> ") :: " <> pretty t
+        Lambda t x e' -> "(\\" <> x <> " -> " <> pretty e' <> ") :: " <> pretty t
+        Let t x e' b -> "(let " <> x <> " = " <> pretty b <> " in " <> pretty e' <> ") :: " <> pretty t
