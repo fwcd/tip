@@ -10,6 +10,7 @@ module Tip.Frontend.AST.Subst
 
 import qualified Data.Map as M
 import Data.Maybe (fromMaybe)
+import Tip.Frontend.AST.Pretty
 import Tip.Frontend.AST.Type
 import Tip.Frontend.AST.VarName
 
@@ -35,7 +36,7 @@ subst = Subst . M.fromList
 -- performing an occurs check.
 varBindWithCheck :: VarName -> Type -> Subst
 varBindWithCheck v (TypeVar v') | v == v' = emptySubst
-varBindWithCheck v t            | elem v $ free t = error $ "Occurs check: " <> v <> " is contained in " <> show t <> " (thus cannot be bound)"
+varBindWithCheck v t            | elem v $ free t = error $ "Occurs check: " <> v <> " is contained in " <> pretty t <> " (thus cannot be bound)"
                        | otherwise = subst [(v, t)]
 
 -- Binds a variable name in a context.
