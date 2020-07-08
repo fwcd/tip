@@ -21,14 +21,20 @@ litIntExpr = LitInt <$> read <$> many1 digit
 -- Parses a function application
 applyExpr :: Parser Expr
 applyExpr = do
+    -- TODO: Handle precedence and left-recursion so that
+    --       not every application has to be parenthesized
+    char '('
+    spaces
     f <- expr
     spaces
     x <- expr
+    spaces
+    char ')'
     return $ Apply f x
 
 -- Parses an identifier
 ident :: Parser VarName
-ident = many (noneOf [' '])
+ident = many1 (noneOf [' '])
 
 -- Parses a variable identifier
 varExpr :: Parser Expr
