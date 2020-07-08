@@ -45,7 +45,7 @@ varExpr = Var <$> pure () <*> ident
 lambdaExpr :: Parser (Expr ())
 lambdaExpr = do
     _ <- char '\\'
-    x <- varExpr
+    x <- ident
     spaces
     _ <- string "->"
     spaces
