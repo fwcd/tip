@@ -1,6 +1,7 @@
 module Main where
 
 import System.Environment
+import Tip.Frontend.AST.Pretty (pretty)
 import Tip.Frontend.Check.TypeCheck (typeCheck)
 import Tip.Frontend.Parse.Expr (parseExpr)
 
@@ -12,5 +13,8 @@ main = do
             source <- readFile inFile
             case parseExpr inFile source of
                 Left e -> error e
-                Right expr -> writeFile outFile $ show $ typeCheck expr
+                Right expr -> do
+                    let ast = typeCheck expr
+                    putStrLn $ pretty ast
+                    writeFile outFile $ show ast
         _ -> error "Syntax: [input file] [output file]"
