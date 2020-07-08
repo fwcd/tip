@@ -10,5 +10,5 @@ main = do
         (inFile:outFile:_) -> do
             source <- readFile inFile
             let expr = parseExpr source
-            putStrLn $ show expr
-        _ -> putStrLn "Syntax: [input file] [output file]"
+            writeFile outFile $ show expr
+        _ -> error "Syntax: [input file] [output file]"
