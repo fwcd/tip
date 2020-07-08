@@ -5,6 +5,7 @@ module Tip.Frontend.AST.Type
 
 import Tip.Frontend.AST.VarName
 
+-- A type that possibly contains free variables.
 data Type = TypeStr
           | TypeInt
           | TypeVar VarName
@@ -12,5 +13,6 @@ data Type = TypeStr
           | TypeApply Type Type
     deriving (Show, Eq)
 
+-- A type with universal quantifiers.
 data Scheme = Scheme [VarName] Type
     deriving (Show, Eq)
