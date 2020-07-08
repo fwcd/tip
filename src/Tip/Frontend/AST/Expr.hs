@@ -32,4 +32,4 @@ instance (Pretty a, Show a) => Pretty (Expr a) where
         Var t v -> v <> " :: " <> pretty t
         Apply t f x -> "(" <> pretty f <> " " <> pretty x <> ") :: " <> pretty t
         Lambda t x e' -> "(\\" <> x <> " -> " <> pretty e' <> ") :: " <> pretty t
-        Let t x e' b -> "(let " <> x <> " = " <> pretty b <> " in " <> pretty e' <> ") :: " <> pretty t
+        Let t x e' b -> "(let " <> x <> " = " <> pretty e' <> " in " <> pretty b <> ") :: " <> pretty t
