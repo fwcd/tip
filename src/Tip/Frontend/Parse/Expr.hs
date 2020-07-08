@@ -8,19 +8,19 @@ import Tip.Frontend.AST.VarName
 type Parser a = Parsec String () a
 
 -- Parses a string to an expression node.
-parseExpr :: String -> String -> Either String Expr
+parseExpr :: String -> String -> Either String (Expr ())
 parseExpr fp = mapLeft show . parse expr fp
 
 -- Parses a string literal
-litStrExpr :: Parser Expr
-litStrExpr = LitStr <$> (char '"' *> many (noneOf ['"']) <* char '"')
+litStrExpr :: Parser (Expr ())
+litStrExpr = LitStr <$> pure () <*> (char '"' *> many (noneOf ['"']) <* char '"')
 
 -- Parses an integer literal
-litIntExpr :: Parser Expr
-litIntExpr = LitInt <$> read <$> many1 digit
+litIntExpr :: Parser (Expr ())
+litIntExpr = LitInt <$> pure () <*> read <$> many1 digit
 
 -- Parses a function application
-applyExpr :: Parser Expr
+applyExpr :: Parser (Expr ())
 applyExpr = do
     -- TODO: Handle precedence and left-recursion so that
     --       not every application has to be parenthesized
@@ -31,18 +31,18 @@ applyExpr = do
     x <- expr
     spaces
     char ')'
-    return $ Apply f x
+    pure $ Apply () f x
 
 -- Parses an identifier
 ident :: Parser VarName
 ident = many1 (noneOf [' '])
 
 -- Parses a variable identifier
-varExpr :: Parser Expr
-varExpr = Var <$> ident
+varExpr :: Parser (Expr ())
+varExpr = Var <$> pure () <*> ident
 
 -- Parses a lambda
-lambdaExpr :: Parser Expr
+lambdaExpr :: Parser (Expr ())
 lambdaExpr = do
     char '\\'
     b <- varExpr
@@ -50,10 +50,10 @@ lambdaExpr = do
     string "->"
     spaces
     e <- expr
-    return $ Lambda b e
+    pure $ Lambda () b e
 
 -- Parses a let expression
-letExpr :: Parser Expr
+letExpr :: Parser (Expr ())
 letExpr = do
     string "let"
     spaces
@@ -66,8 +66,8 @@ letExpr = do
     string "in"
     spaces
     y <- expr
-    return $ Let v x y
+    pure $ Let () v x y
 
 -- Parses an expression
-expr :: Parser Expr
+expr :: Parser (Expr ())
 expr = litStrExpr <|> litIntExpr <|> applyExpr <|> lambdaExpr <|> letExpr <|> varExpr
