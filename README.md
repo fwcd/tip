@@ -5,7 +5,7 @@ This repo contains the compiler frontend that parses a source file and emits a (
 
 Note that the project is highly experimental and mostly an attempt to gain a better understanding of how type checking and type inference works in the context of lambda calculus.
 
-The type system a basic Hindley-Milner system.
+The type system is a basic Hindley-Milner system that is heavily inspired by Christoph Hegemann's "Type Inference From Scratch" talk.
 
 ## Example
 

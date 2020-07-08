@@ -45,28 +45,28 @@ varExpr = Var <$> pure () <*> ident
 lambdaExpr :: Parser (Expr ())
 lambdaExpr = do
     char '\\'
-    b <- varExpr
+    x <- varExpr
     spaces
     string "->"
     spaces
     e <- expr
-    pure $ Lambda () b e
+    pure $ Lambda () x e
 
 -- Parses a let expression
 letExpr :: Parser (Expr ())
 letExpr = do
     string "let"
     spaces
-    v <- ident
+    x <- ident
     spaces
     char '='
     spaces
-    x <- expr
+    e <- expr
     spaces
     string "in"
     spaces
-    y <- expr
-    pure $ Let () v x y
+    b <- expr
+    pure $ Let () x e b
 
 -- Parses an expression
 expr :: Parser (Expr ())
