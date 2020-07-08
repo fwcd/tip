@@ -13,6 +13,12 @@ The type system is a basic Hindley-Milner system that is heavily inspired by Chr
 let const = \x -> \y -> x in (const "Hello!")
 ```
 
+The frontend then yields the following, fully-typed expression:
+
+```
+(let const = (\x -> (\y -> x :: _a) :: (_b -> _a)) :: (_a -> (_b -> _a)) in (const :: (_a -> (_b -> _a)) "Hello!" :: String) :: (_b -> String)) :: (_b -> String)
+```
+
 ## Running
 `stack run -- [input file] [output file]`
 
