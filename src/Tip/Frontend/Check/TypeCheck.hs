@@ -15,7 +15,7 @@ typeCheck = snd . runTM . infer emptyContext
 
 -- An infinite list of fresh type variables.
 freshTypeVars :: [String]
-freshTypeVars = alphabet ++ zipWith (++) alphabet freshTypeVars
+freshTypeVars = alphabet ++ (alphabet >>= \x -> map (x++) freshTypeVars)
     where alphabet = map pure "abcdefghijklmnopqrstuvwxyz"
 
 -- Runs the type check monad.
