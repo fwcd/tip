@@ -18,3 +18,8 @@ applySubst s@(Subst m) t = case t of
     TypeApply x y -> TypeApply (applySubst s x) (applySubst s y)
     TypeFun   x y -> TypeFun   (applySubst s x) (applySubst s y)
     _ -> t
+
+-- Yields a subtitution that has the same effect as
+-- first applying the right and then the left one
+composeSubst :: Subst -> Subst -> Subst
+composeSubst s1@(Subst m1) s2@(Subst m2) = Subst $ M.union (M.map (applySubst s1) m2) m1
