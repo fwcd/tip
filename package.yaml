@@ -25,6 +25,7 @@ dependencies:
 - containers >= 0.6 && < 1
 - mtl >= 2.2 && < 3
 - transformers >= 0.5 && < 1
+- prettyprinter >= 1.7 && < 2
 
 library:
   source-dirs: src
