@@ -1,7 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Tip.Frontend.AbstractHaskell.Expr
     ( Expr (..)
-    , value
+    , exprType
     ) where
 
 import qualified Data.Text as T
@@ -17,9 +17,9 @@ data Expr a = LitStr a T.Text                 -- "abc"
             | Let a VarName (Expr a) (Expr a) -- let v = x in y
     deriving (Show, Eq)
 
--- Extracts the value from the expression.
-value :: Expr a -> a
-value e = case e of
+-- Extracts the type from the expression.
+exprType :: Expr a -> a
+exprType e = case e of
     LitStr x _   -> x
     LitInt x _   -> x
     Var x _      -> x

@@ -46,8 +46,8 @@ infer ctx (Apply _ f x) = do
     tyRes <- freshTypeVar
     (s1, f') <- infer ctx f
     (s2, x') <- infer (applySubstCtx s1 ctx) x
-    let tyF = value f'
-        tyX = value x'
+    let tyF = exprType f'
+        tyX = exprType x'
         s3 = unify tyF $ TypeFun tyX tyRes
     return (foldr1 composeSubst [s3, s2, s1], Apply (applySubst s3 tyRes) f' x')
 
@@ -57,17 +57,17 @@ infer ctx (Lambda _ x e) = do
     tyX <- freshTypeVar
     let innerCtx = varBindCtx x (Scheme [] tyX) ctx
     (s, e') <- infer innerCtx e
-    let tyRes = value e'
+    let tyRes = exprType e'
     return (s, Lambda (TypeFun (applySubst s tyX) tyRes) x e')
 
 infer ctx (Let _ x e b) = do
     -- First infer the type of the expression,
     -- then infer the body using the generalized/universally quantified type (with 'forall')
     (s1, e') <- infer ctx e
-    let tyE = value e'
+    let tyE = exprType e'
         innerCtx = varBindCtx x (generalize tyE) ctx
     (s2, b') <- infer (applySubstCtx s1 innerCtx) b
-    let tyB = value b'
+    let tyB = exprType b'
     return (composeSubst s2 s1, Let tyB x e' b')
 
 infer ctx (Var _ v) = case contextLookup v ctx of
