@@ -6,9 +6,8 @@ module Tip.Frontend.AbstractHaskell.Type
     , free
     ) where
 
-import qualified Data.Text as T
+import Prettyprinter (Pretty (..), hsep)
 import Tip.Frontend.AbstractHaskell.VarName
-import Tip.Utils.Pretty
 
 -- A type that possibly contains free variables.
 data Type = TypeStr
@@ -35,8 +34,8 @@ instance Pretty Type where
     pretty t = case t of
         TypeStr -> "String"
         TypeInt -> "Int"
-        TypeVar v -> v
+        TypeVar v -> pretty v
         TypeFun x y -> "(" <> pretty x <> " -> " <> pretty y <> ")"
 
 instance Pretty Scheme where
-    pretty (Scheme vs t) = "forall " <> T.intercalate " " vs <> ". " <> pretty t
+    pretty (Scheme vs t) = "forall " <> (hsep $ pretty <$> vs) <> ". " <> pretty t

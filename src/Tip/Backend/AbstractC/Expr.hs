@@ -4,7 +4,8 @@ module Tip.Backend.AbstractC.Expr
     ) where
 
 import qualified Data.Text as T
-import Tip.Utils.Pretty
+import Data.List (intersperse)
+import Prettyprinter (Pretty (..), hsep)
 
 data Expr = LitStr T.Text       -- "test"
           | LitInt Int          -- 42
@@ -13,8 +14,8 @@ data Expr = LitStr T.Text       -- "test"
 
 instance Pretty Expr where
     pretty e = case e of
-        LitStr s -> "\"" <> s <> "\""
-        LitInt i -> T.pack $ show i
-        Var v -> v
-        Apply f xs -> f <> "(" <> T.intercalate ", " (pretty <$> xs) <> ")"
+        LitStr s -> "\"" <> pretty s <> "\""
+        LitInt i -> pretty i
+        Var v -> pretty v
+        Apply f xs -> pretty f <> "(" <> (hsep $ intersperse ", " $ pretty <$> xs) <> ")"
 

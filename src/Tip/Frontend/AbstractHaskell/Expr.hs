@@ -5,8 +5,8 @@ module Tip.Frontend.AbstractHaskell.Expr
     ) where
 
 import qualified Data.Text as T
+import Prettyprinter (Pretty (..))
 import Tip.Frontend.AbstractHaskell.VarName
-import Tip.Utils.Pretty
 
 -- An expression AST node.
 data Expr a = LitStr a T.Text                 -- "abc"
@@ -29,9 +29,9 @@ value e = case e of
 
 instance Pretty a => Pretty (Expr a) where
     pretty e = case e of
-        LitStr t s -> "\"" <> s <> "\" :: " <> pretty t
-        LitInt t i -> T.pack (show i) <> " :: " <> pretty t
-        Var t v -> v <> " :: " <> pretty t
+        LitStr t s -> "\"" <> pretty s <> "\" :: " <> pretty t
+        LitInt t i -> pretty i <> " :: " <> pretty t
+        Var t v -> pretty v <> " :: " <> pretty t
         Apply t f x -> "(" <> pretty f <> " " <> pretty x <> ") :: " <> pretty t
-        Lambda t x e' -> "(\\" <> x <> " -> " <> pretty e' <> ") :: " <> pretty t
-        Let t x e' b -> "(let " <> x <> " = " <> pretty e' <> " in " <> pretty b <> ") :: " <> pretty t
+        Lambda t x e' -> "(\\" <> pretty x <> " -> " <> pretty e' <> ") :: " <> pretty t
+        Let t x e' b -> "(let " <> pretty x <> " = " <> pretty e' <> " in " <> pretty b <> ") :: " <> pretty t
