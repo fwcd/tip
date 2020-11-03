@@ -3,7 +3,7 @@ module Main where
 import System.Environment
 import Tip.Frontend.AbstractHaskell.Parse (parseExpr)
 import Tip.Frontend.Check.TypeCheck (typeCheck)
-import Tip.Frontend.Utils.Pretty (pretty)
+import Tip.Utils.Pretty (pretty)
 
 main :: IO ()
 main = do

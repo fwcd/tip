@@ -1,9 +1,9 @@
-module Tip.Frontend.AbstractC.Expr
+module Tip.Backend.AbstractC.Expr
     ( Expr (..)
     ) where
 
 import Data.List (intercalate)
-import Tip.Frontend.Utils.Pretty
+import Tip.Utils.Pretty
 
 data Expr = LitStr String       -- "test"
           | LitInt Int          -- 42

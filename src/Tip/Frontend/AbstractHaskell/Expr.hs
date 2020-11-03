@@ -4,7 +4,7 @@ module Tip.Frontend.AbstractHaskell.Expr
     ) where
 
 import Tip.Frontend.AbstractHaskell.VarName
-import Tip.Frontend.Utils.Pretty
+import Tip.Utils.Pretty
 
 -- An expression AST node.
 data Expr a = LitStr a String                 -- "abc"

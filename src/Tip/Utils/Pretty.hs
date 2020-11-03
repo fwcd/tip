@@ -1,4 +1,4 @@
-module Tip.Frontend.Utils.Pretty
+module Tip.Utils.Pretty
     ( Pretty (..)
     ) where
 

@@ -7,7 +7,7 @@ module Tip.Frontend.AbstractHaskell.Type
 
 import Data.List (intercalate)
 import Tip.Frontend.AbstractHaskell.VarName
-import Tip.Frontend.Utils.Pretty
+import Tip.Utils.Pretty
 
 -- A type that possibly contains free variables.
 data Type = TypeStr

@@ -4,7 +4,7 @@ module Tip.Frontend.AbstractHaskell.Unify
 
 import Tip.Frontend.AbstractHaskell.Subst
 import Tip.Frontend.AbstractHaskell.Type
-import Tip.Frontend.Utils.Pretty
+import Tip.Utils.Pretty
 
 -- Finds the most general unifier of two types.
 unify :: Type -> Type -> Subst
