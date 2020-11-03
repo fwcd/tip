@@ -6,7 +6,7 @@ module Tip.Frontend.AbstractHaskell.Type
     , free
     ) where
 
-import Prettyprinter (Pretty (..), hsep)
+import Prettyprinter
 import Tip.Frontend.AbstractHaskell.VarName
 
 -- A type that possibly contains free variables.
@@ -35,7 +35,7 @@ instance Pretty Type where
         TypeStr -> "String"
         TypeInt -> "Int"
         TypeVar v -> pretty v
-        TypeFun x y -> "(" <> pretty x <> " -> " <> pretty y <> ")"
+        TypeFun x y -> pretty x <+> "->" <+> pretty y
 
 instance Pretty Scheme where
     pretty (Scheme vs t) = "forall " <> (hsep $ pretty <$> vs) <> ". " <> pretty t
