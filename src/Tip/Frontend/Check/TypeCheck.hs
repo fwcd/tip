@@ -1,10 +1,10 @@
 module Tip.Frontend.Check.TypeCheck (typeCheck) where
 
 import Control.Monad.State (State, runState, put, get)
-import Tip.Frontend.AST.Expr
-import Tip.Frontend.AST.Subst
-import Tip.Frontend.AST.Type
-import Tip.Frontend.AST.Unify
+import Tip.Frontend.AbstractHaskell.Expr
+import Tip.Frontend.AbstractHaskell.Subst
+import Tip.Frontend.AbstractHaskell.Type
+import Tip.Frontend.AbstractHaskell.Unify
 
 -- The type check monad holding an (infinite) list of fresh type variables.
 type TM a = State [String] a

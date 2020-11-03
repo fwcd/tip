@@ -1,7 +1,7 @@
 module Main where
 
 import System.Environment
-import Tip.Frontend.AST.Pretty (pretty)
+import Tip.Frontend.AbstractHaskell.Pretty (pretty)
 import Tip.Frontend.Check.TypeCheck (typeCheck)
 import Tip.Frontend.Parse.Expr (parseExpr)
 

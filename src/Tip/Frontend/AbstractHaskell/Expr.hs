@@ -1,10 +1,10 @@
-module Tip.Frontend.AST.Expr
+module Tip.Frontend.AbstractHaskell.Expr
     ( Expr (..)
     , value
     ) where
 
-import Tip.Frontend.AST.Pretty
-import Tip.Frontend.AST.VarName
+import Tip.Frontend.AbstractHaskell.Pretty
+import Tip.Frontend.AbstractHaskell.VarName
 
 -- An expression AST node.
 data Expr a = LitStr a String                 -- "abc"

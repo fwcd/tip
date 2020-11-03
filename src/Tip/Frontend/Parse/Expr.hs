@@ -2,8 +2,8 @@ module Tip.Frontend.Parse.Expr (parseExpr) where
 
 import Data.Either.Combinators (mapLeft)
 import Text.Parsec
-import Tip.Frontend.AST.Expr
-import Tip.Frontend.AST.VarName
+import Tip.Frontend.AbstractHaskell.Expr
+import Tip.Frontend.AbstractHaskell.VarName
 
 type Parser a = Parsec String () a
 

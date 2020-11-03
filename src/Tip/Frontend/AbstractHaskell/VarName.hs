@@ -1,4 +1,4 @@
-module Tip.Frontend.AST.VarName
+module Tip.Frontend.AbstractHaskell.VarName
     ( VarName
     ) where
 

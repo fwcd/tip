@@ -1,4 +1,4 @@
-module Tip.Frontend.AST.Type 
+module Tip.Frontend.AbstractHaskell.Type 
     ( Type (..)
     , Scheme (..)
     , generalize
@@ -6,8 +6,8 @@ module Tip.Frontend.AST.Type
     ) where
 
 import Data.List (intercalate)
-import Tip.Frontend.AST.Pretty
-import Tip.Frontend.AST.VarName
+import Tip.Frontend.AbstractHaskell.Pretty
+import Tip.Frontend.AbstractHaskell.VarName
 
 -- A type that possibly contains free variables.
 data Type = TypeStr
