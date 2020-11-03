@@ -1,4 +1,4 @@
-module Tip.Frontend.Parse.Expr (parseExpr) where
+module Tip.Frontend.AbstractHaskell.Parse (parseExpr) where
 
 import Data.Either.Combinators (mapLeft)
 import Text.Parsec

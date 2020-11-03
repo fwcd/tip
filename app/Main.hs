@@ -1,9 +1,9 @@
 module Main where
 
 import System.Environment
-import Tip.Frontend.Utils.Pretty (pretty)
+import Tip.Frontend.AbstractHaskell.Parse (parseExpr)
 import Tip.Frontend.Check.TypeCheck (typeCheck)
-import Tip.Frontend.Parse.Expr (parseExpr)
+import Tip.Frontend.Utils.Pretty (pretty)
 
 main :: IO ()
 main = do
