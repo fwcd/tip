@@ -3,8 +3,8 @@ module Tip.Frontend.AbstractHaskell.Expr
     , value
     ) where
 
-import Tip.Frontend.AbstractHaskell.Pretty
 import Tip.Frontend.AbstractHaskell.VarName
+import Tip.Frontend.Utils.Pretty
 
 -- An expression AST node.
 data Expr a = LitStr a String                 -- "abc"

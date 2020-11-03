@@ -1,4 +1,4 @@
-module Tip.Frontend.AbstractHaskell.Pretty
+module Tip.Frontend.Utils.Pretty
     ( Pretty (..)
     ) where
 

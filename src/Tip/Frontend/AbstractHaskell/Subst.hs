@@ -10,9 +10,9 @@ module Tip.Frontend.AbstractHaskell.Subst
 
 import qualified Data.Map as M
 import Data.Maybe (fromMaybe)
-import Tip.Frontend.AbstractHaskell.Pretty
 import Tip.Frontend.AbstractHaskell.Type
 import Tip.Frontend.AbstractHaskell.VarName
+import Tip.Frontend.Utils.Pretty
 
 -- A substitution on types.
 data Subst = Subst (M.Map VarName Type)
