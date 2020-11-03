@@ -6,8 +6,8 @@ module Tip.Frontend.AbstractHaskell.Type
     , free
     ) where
 
-import Prettyprinter
 import Tip.Frontend.AbstractHaskell.VarName
+import Tip.Utils.Pretty
 
 -- A type that possibly contains free variables.
 data Type = TypeStr
@@ -30,12 +30,12 @@ free _ = []
 generalize :: Type -> Scheme
 generalize t = Scheme (free t) t
 
-instance Pretty Type where
-    pretty t = case t of
-        TypeStr -> "String"
-        TypeInt -> "Int"
-        TypeVar v -> pretty v
-        TypeFun x y -> pretty x <+> "->" <+> pretty y
+instance PrettyPrec Type where
+    prettyPrec p t = case t of
+        TypeStr     -> "String"
+        TypeInt     -> "Int"
+        TypeVar v   -> prettyPrec 0 v
+        TypeFun x y -> parensIf (p > 0) $ prettyPrec 1 x <+> "->" <+> prettyPrec 0 y
 
-instance Pretty Scheme where
-    pretty (Scheme vs t) = "forall " <> (hsep $ pretty <$> vs) <> ". " <> pretty t
+instance PrettyPrec Scheme where
+    prettyPrec _ (Scheme vs t) = "forall " <> (hsep $ prettyPrec 0 <$> vs) <> ". " <> prettyPrec 0 t

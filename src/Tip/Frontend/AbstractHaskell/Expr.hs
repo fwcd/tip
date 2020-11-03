@@ -5,8 +5,8 @@ module Tip.Frontend.AbstractHaskell.Expr
     ) where
 
 import qualified Data.Text as T
-import Prettyprinter
 import Tip.Frontend.AbstractHaskell.VarName
+import Tip.Utils.Pretty
 
 -- An expression AST node.
 data Expr a = LitStr a T.Text                 -- "abc"
@@ -27,11 +27,11 @@ exprType e = case e of
     Lambda x _ _ -> x
     Let x _ _ _  -> x
 
-instance Pretty a => Pretty (Expr a) where
-    pretty e = case e of
-        LitStr t s -> "\"" <> pretty s <> "\" ::" <+> pretty t
-        LitInt t i -> pretty i <+> "::" <+> pretty t
-        Var t v -> pretty v <+> "::" <+> pretty t
-        Apply t f x -> pretty f <+> pretty x <+> "::" <+> pretty t
-        Lambda t x e' -> "\\" <> pretty x <+> "->" <+> pretty e' <+> "::" <+> pretty t
-        Let t x e' b -> vcat ["let" <+> pretty x <+> "=" <+> pretty e', "in" <+> pretty b <+> "::" <+> pretty t]
+instance PrettyPrec a => PrettyPrec (Expr a) where
+    prettyPrec p e = case e of
+        LitStr t s    -> "\"" <> prettyPrec 0 s <> "\"" <+> "::" <+> prettyPrec 0 t
+        LitInt t i    -> prettyPrec 0 i <+> "::" <+> prettyPrec 0 t
+        Var t v       -> prettyPrec 0 v <+> "::" <+> prettyPrec 0 t
+        Apply t f x   -> parensIf (p > 1) $ prettyPrec 2 f <+> prettyPrec 1 x <+> "::" <+> prettyPrec 0 t
+        Lambda t x e' -> "\\" <> prettyPrec 0 x <+> "->" <+> prettyPrec 0 e' <+> "::" <+> prettyPrec 0 t
+        Let t x e' b  -> vcat ["let" <+> prettyPrec 0 x <+> "=" <+> prettyPrec 0 e', "in" <+> prettyPrec 0 b <+> "::" <+> prettyPrec 0 t]

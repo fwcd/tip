@@ -12,9 +12,9 @@ module Tip.Frontend.AbstractHaskell.Subst
 import qualified Data.Map as M
 import Data.Maybe (fromMaybe)
 import qualified Data.Text as T
-import Prettyprinter (Pretty (..))
 import Tip.Frontend.AbstractHaskell.Type
 import Tip.Frontend.AbstractHaskell.VarName
+import Tip.Utils.Pretty
 
 -- A substitution on types.
 data Subst = Subst (M.Map VarName Type)
@@ -38,7 +38,7 @@ subst = Subst . M.fromList
 -- performing an occurs check.
 varBindWithCheck :: VarName -> Type -> Subst
 varBindWithCheck v (TypeVar v') | v == v' = emptySubst
-varBindWithCheck v t            | elem v $ free t = error $ "Occurs check: " <> T.unpack v <> " is contained in " <> show (pretty t) <> " (thus cannot be bound)"
+varBindWithCheck v t            | elem v $ free t = error $ "Occurs check: " <> T.unpack v <> " is contained in " <> show (prettyPrec 0 t) <> " (thus cannot be bound)"
                        | otherwise = subst [(v, t)]
 
 -- Binds a variable name in a context.
