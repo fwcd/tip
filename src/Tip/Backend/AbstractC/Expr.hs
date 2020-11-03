@@ -1,19 +1,20 @@
+{-# LANGUAGE OverloadedStrings #-}
 module Tip.Backend.AbstractC.Expr
     ( Expr (..)
     ) where
 
-import Data.List (intercalate)
+import qualified Data.Text as T
 import Tip.Utils.Pretty
 
-data Expr = LitStr String       -- "test"
+data Expr = LitStr T.Text       -- "test"
           | LitInt Int          -- 42
-          | Var String          -- x
-          | Apply String [Expr] -- f(x, y, z, ...)
+          | Var T.Text          -- x
+          | Apply T.Text [Expr] -- f(x, y, z, ...)
 
 instance Pretty Expr where
     pretty e = case e of
         LitStr s -> "\"" <> s <> "\""
-        LitInt i -> show i
+        LitInt i -> T.pack $ show i
         Var v -> v
-        Apply f xs -> f <> "(" <> intercalate ", " (pretty <$> xs) <> ")"
+        Apply f xs -> f <> "(" <> T.intercalate ", " (pretty <$> xs) <> ")"
 

@@ -1,3 +1,4 @@
+{-# LANGUAGE OverloadedStrings #-}
 module Tip.Frontend.AbstractHaskell.Type 
     ( Type (..)
     , Scheme (..)
@@ -5,7 +6,7 @@ module Tip.Frontend.AbstractHaskell.Type
     , free
     ) where
 
-import Data.List (intercalate)
+import qualified Data.Text as T
 import Tip.Frontend.AbstractHaskell.VarName
 import Tip.Utils.Pretty
 
@@ -38,4 +39,4 @@ instance Pretty Type where
         TypeFun x y -> "(" <> pretty x <> " -> " <> pretty y <> ")"
 
 instance Pretty Scheme where
-    pretty (Scheme vs t) = "forall " <> intercalate " " vs <> ". " <> pretty t
+    pretty (Scheme vs t) = "forall " <> T.intercalate " " vs <> ". " <> pretty t

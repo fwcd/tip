@@ -1,6 +1,8 @@
+{-# LANGUAGE OverloadedStrings #-}
 module Tip.Frontend.AbstractHaskell.Parse (parseExpr) where
 
 import Data.Either.Combinators (mapLeft)
+import qualified Data.Text as T
 import Text.Parsec
 import Tip.Frontend.AbstractHaskell.Expr
 import Tip.Frontend.AbstractHaskell.VarName
@@ -8,12 +10,12 @@ import Tip.Frontend.AbstractHaskell.VarName
 type Parser a = Parsec String () a
 
 -- Parses a string to an expression node.
-parseExpr :: String -> String -> Either String (Expr ())
-parseExpr fp = mapLeft show . parse expr fp
+parseExpr :: T.Text -> T.Text -> Either T.Text (Expr ())
+parseExpr fp = mapLeft (T.pack . show) . parse expr (T.unpack fp) . T.unpack
 
 -- Parses a string literal
 litStrExpr :: Parser (Expr ())
-litStrExpr = LitStr <$> pure () <*> (char '"' *> many (noneOf ['"']) <* char '"')
+litStrExpr = LitStr <$> pure () <*> (T.pack <$> (char '"' *> many (noneOf ['"']) <* char '"'))
 
 -- Parses an integer literal
 litIntExpr :: Parser (Expr ())
@@ -35,7 +37,7 @@ applyExpr = do
 
 -- Parses an identifier
 ident :: Parser VarName
-ident = many1 alphaNum
+ident = T.pack <$> many1 alphaNum
 
 -- Parses a variable identifier
 varExpr :: Parser (Expr ())

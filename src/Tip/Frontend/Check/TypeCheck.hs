@@ -1,22 +1,24 @@
+{-# LANGUAGE OverloadedStrings #-}
 module Tip.Frontend.Check.TypeCheck (typeCheck) where
 
 import Control.Monad.State (State, runState, put, get)
+import qualified Data.Text as T
 import Tip.Frontend.AbstractHaskell.Expr
 import Tip.Frontend.AbstractHaskell.Subst
 import Tip.Frontend.AbstractHaskell.Type
 import Tip.Frontend.AbstractHaskell.Unify
 
 -- The type check monad holding an (infinite) list of fresh type variables.
-type TM a = State [String] a
+type TM a = State [T.Text] a
 
 -- Type-checks the given AST and returns the typed AST
 typeCheck :: Show a => Expr a -> Expr Type
 typeCheck = snd . runTM . infer emptyContext
 
 -- An infinite list of fresh type variables.
-freshTypeVars :: [String]
-freshTypeVars = alphabet ++ (alphabet >>= \x -> map (x++) freshTypeVars)
-    where alphabet = map pure "abcdefghijklmnopqrstuvwxyz"
+freshTypeVars :: [T.Text]
+freshTypeVars = alphabet ++ (freshTypeVars >>= \x -> map (x <>) alphabet)
+    where alphabet = map T.singleton "abcdefghijklmnopqrstuvwxyz"
 
 -- Runs the type check monad.
 runTM :: TM a -> a
@@ -28,7 +30,7 @@ freshTypeVar = do
     vs <- get
     let (v:vs') = vs
     put vs'
-    return $ TypeVar $ '_' : v
+    return $ TypeVar $ "_" <> v
 
 -- Instantiates a type scheme using fresh variables.
 instantiate :: Scheme -> TM Type
@@ -72,7 +74,7 @@ infer ctx (Var _ v) = case contextLookup v ctx of
     Just s -> do
         t <- instantiate s
         pure (emptySubst, Var t v)
-    Nothing -> error $ "Unbound variable " <> v
+    Nothing -> error $ T.unpack $ "Unbound variable " <> v
 
 infer _ (LitInt _ i) = pure (emptySubst, LitInt TypeInt i)
 infer _ (LitStr _ s) = pure (emptySubst, LitStr TypeStr s)

@@ -1,3 +1,4 @@
+{-# LANGUAGE OverloadedStrings #-}
 module Tip.Frontend.AbstractHaskell.Subst
     ( Subst (..)
     , Context (..)
@@ -10,6 +11,7 @@ module Tip.Frontend.AbstractHaskell.Subst
 
 import qualified Data.Map as M
 import Data.Maybe (fromMaybe)
+import qualified Data.Text as T
 import Tip.Frontend.AbstractHaskell.Type
 import Tip.Frontend.AbstractHaskell.VarName
 import Tip.Utils.Pretty
@@ -36,7 +38,7 @@ subst = Subst . M.fromList
 -- performing an occurs check.
 varBindWithCheck :: VarName -> Type -> Subst
 varBindWithCheck v (TypeVar v') | v == v' = emptySubst
-varBindWithCheck v t            | elem v $ free t = error $ "Occurs check: " <> v <> " is contained in " <> pretty t <> " (thus cannot be bound)"
+varBindWithCheck v t            | elem v $ free t = error $ T.unpack $ "Occurs check: " <> v <> " is contained in " <> pretty t <> " (thus cannot be bound)"
                        | otherwise = subst [(v, t)]
 
 -- Binds a variable name in a context.

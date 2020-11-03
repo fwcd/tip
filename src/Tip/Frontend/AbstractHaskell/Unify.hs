@@ -1,7 +1,9 @@
+{-# LANGUAGE OverloadedStrings #-}
 module Tip.Frontend.AbstractHaskell.Unify
     ( unify
     ) where
 
+import qualified Data.Text as T
 import Tip.Frontend.AbstractHaskell.Subst
 import Tip.Frontend.AbstractHaskell.Type
 import Tip.Utils.Pretty
@@ -15,4 +17,4 @@ unify (TypeVar v) t = varBindWithCheck v t
 unify t (TypeVar v) = varBindWithCheck v t
 unify TypeStr TypeStr = emptySubst
 unify TypeInt TypeInt = emptySubst
-unify t1 t2 = error $ "Non-unifiable types: " <> pretty t1 <> " and " <> pretty t2
+unify t1 t2 = error $ T.unpack $ "Non-unifiable types: " <> pretty t1 <> " and " <> pretty t2

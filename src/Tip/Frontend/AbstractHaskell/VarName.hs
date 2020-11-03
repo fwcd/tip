@@ -2,4 +2,6 @@ module Tip.Frontend.AbstractHaskell.VarName
     ( VarName
     ) where
 
-type VarName = String
+import qualified Data.Text as T
+
+type VarName = T.Text
