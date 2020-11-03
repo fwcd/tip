@@ -1,7 +1,7 @@
 module Main where
 
 import Data.Either.Combinators (fromRight')
-import qualified Data.Text as T
+import qualified Data.Text.IO as TIO
 import System.Environment
 import Tip.Frontend.AbstractHaskell.Parse (parseExpr)
 import Tip.Frontend.Check.TypeCheck (typeCheck)
@@ -12,9 +12,9 @@ main = do
     args <- getArgs
     case args of
         (inFile:outFile:_) -> do
-            source <- readFile inFile
-            let ast = fromRight' $ parseExpr (T.pack inFile) (T.pack source)
+            source <- TIO.readFile inFile
+            let ast = fromRight' $ parseExpr inFile source
                 typedAST = typeCheck ast
-            putStrLn $ T.unpack $ pretty typedAST
-            writeFile outFile $ show ast
+            TIO.putStrLn $ pretty typedAST
+            TIO.writeFile outFile $ pretty typedAST
         _ -> error "Syntax: [input file] [output file]"

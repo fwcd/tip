@@ -10,8 +10,8 @@ import Tip.Frontend.AbstractHaskell.VarName
 type Parser a = Parsec String () a
 
 -- Parses a string to an expression node.
-parseExpr :: T.Text -> T.Text -> Either T.Text (Expr ())
-parseExpr fp = mapLeft (T.pack . show) . parse expr (T.unpack fp) . T.unpack
+parseExpr :: FilePath -> T.Text -> Either T.Text (Expr ())
+parseExpr fp = mapLeft (T.pack . show) . parse expr fp . T.unpack
 
 -- Parses a string literal
 litStrExpr :: Parser (Expr ())
