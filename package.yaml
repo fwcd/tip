@@ -31,7 +31,7 @@ library:
   ghc-options: -Wall
 
 executables:
-  tip-exe:
+  tip:
     main:                Main.hs
     source-dirs:         app
     ghc-options:
