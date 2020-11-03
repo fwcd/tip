@@ -1,5 +1,6 @@
 module Main where
 
+import Data.Either.Combinators (fromRight')
 import System.Environment
 import Tip.Frontend.AbstractHaskell.Parse (parseExpr)
 import Tip.Frontend.Check.TypeCheck (typeCheck)
@@ -11,10 +12,8 @@ main = do
     case args of
         (inFile:outFile:_) -> do
             source <- readFile inFile
-            case parseExpr inFile source of
-                Left e -> error e
-                Right expr -> do
-                    let ast = typeCheck expr
-                    putStrLn $ pretty ast
-                    writeFile outFile $ show ast
+            let ast = fromRight' $ parseExpr inFile source
+                typedAST = typeCheck ast
+            putStrLn $ pretty typedAST
+            writeFile outFile $ show ast
         _ -> error "Syntax: [input file] [output file]"
