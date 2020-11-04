@@ -18,7 +18,7 @@ main = do
             let ast = fromRight $ parseExpr inFile source
                 typedAST = typeCheck ast
 
-            putDoc $ prettyPrec 0 ast
+            putDoc $ prettyPrec 0 typedAST
             putStrLn ""
 
             withFile outFile WriteMode $ flip hPutDoc $ prettyPrec 0 typedAST
