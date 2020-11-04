@@ -16,7 +16,8 @@ let const = \x -> \y -> x in (const "Hello!")
 The frontend then yields the following, fully-typed expression:
 
 ```
-(let const = (\x -> (\y -> x :: _a) :: (_b -> _a)) :: (_a -> (_b -> _a)) in (const :: (_f -> (_e -> _f)) "Hello!" :: String) :: (_e -> String)) :: (_e -> String)
+(let const = (\x -> \y -> x) :: _a -> _b -> _a
+in (const "Hello!" :: _e -> String)) :: _e -> String
 ```
 
 ## Running
